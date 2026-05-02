@@ -8,10 +8,26 @@ app.get("/", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-    console.log("Pago recibido:", req.body);
+
+    const payment = req.body;
+
+    console.log("Pago recibido:", payment);
+
+    // SIMULACIÓN DE FICHAS (luego DB real)
+    const vouchers = [
+        {user:"wifi001", pass:"12345", plan:"1H"},
+        {user:"wifi002", pass:"67890", plan:"12H"},
+        {user:"wifi003", pass:"abcde", plan:"1D"}
+    ];
+
+    const voucher = vouchers[Math.floor(Math.random() * vouchers.length)];
+
+    // guardar última venta
+    const fs = require("fs");
+    fs.writeFileSync("last_sale.json", JSON.stringify(voucher));
+
     res.sendStatus(200);
 });
-
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
