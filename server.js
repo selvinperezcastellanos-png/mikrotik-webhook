@@ -3,8 +3,13 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("Webhook activo en Render");
+app.get("/last-sale", (req, res) => {
+
+    const fs = require("fs");
+
+    const data = fs.readFileSync("last_sale.json", "utf8");
+
+    res.json(JSON.parse(data));
 });
 
 app.post("/webhook", (req, res) => {
